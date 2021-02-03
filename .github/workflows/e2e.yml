@@ -1,6 +1,9 @@
 name: Create Cypress report
 
 on:
+    push:
+        branches:
+        - 'master'
     workflow_dispatch:
 
 jobs:
@@ -18,6 +21,13 @@ jobs:
                 $(npm bin)/cypress cache list
                 $(npm bin)/cypress verify
 
+
+            - name: Cypress run
+              uses: cypress-io/github-action@v2
+              with:
+                start: npm start
+                wait-on: 'http://localhost:8888'
+                
             - name: Run Cypress tests
               run: npm run cypress:run:chrome
               continue-on-error: true
@@ -40,3 +50,23 @@ jobs:
                 publish_dir: ./public
                 user_name: 'github-actions[bot]'
                 user_email: 'github-actions[bot]@users.noreply.github.com'
+
+
+
+
+
+
+
+
+
+
+
+
+ - name: Checkout
+        uses: actions/checkout@v1
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          start: npm start
+          # quote the url to be safe against YML parsing surprises
+          wait-on: 'http://localhost:8080'
