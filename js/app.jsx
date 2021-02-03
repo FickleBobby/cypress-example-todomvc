@@ -20,16 +20,20 @@ var app = app || {};
 		getInitialState: function () {
 			return {
 				nowShowing: app.ALL_TODOS,
-				editing: null
+				editing: null,
 			};
 		},
 
 		componentDidMount: function () {
 			var setState = this.setState;
 			var router = Router({
-				'/': setState.bind(this, {nowShowing: app.ALL_TODOS}),
-				'/active': setState.bind(this, {nowShowing: app.ACTIVE_TODOS}),
-				'/completed': setState.bind(this, {nowShowing: app.COMPLETED_TODOS})
+				'/': setState.bind(this, { nowShowing: app.ALL_TODOS }),
+				'/active': setState.bind(this, {
+					nowShowing: app.ACTIVE_TODOS,
+				}),
+				'/completed': setState.bind(this, {
+					nowShowing: app.COMPLETED_TODOS,
+				}),
 			});
 			router.init('/');
 		},
@@ -63,16 +67,16 @@ var app = app || {};
 		},
 
 		edit: function (todo) {
-			this.setState({editing: todo.id});
+			this.setState({ editing: todo.id });
 		},
 
 		save: function (todoToSave, text) {
 			this.props.model.save(todoToSave, text);
-			this.setState({editing: null});
+			this.setState({ editing: null });
 		},
 
 		cancel: function () {
-			this.setState({editing: null});
+			this.setState({ editing: null });
 		},
 
 		clearCompleted: function () {
@@ -86,12 +90,12 @@ var app = app || {};
 
 			var shownTodos = todos.filter(function (todo) {
 				switch (this.state.nowShowing) {
-				case app.ACTIVE_TODOS:
-					return !todo.completed;
-				case app.COMPLETED_TODOS:
-					return todo.completed;
-				default:
-					return true;
+					case app.ACTIVE_TODOS:
+						return !todo.completed;
+					case app.COMPLETED_TODOS:
+						return todo.completed;
+					default:
+						return true;
 				}
 			}, this);
 
@@ -117,13 +121,14 @@ var app = app || {};
 			var completedCount = todos.length - activeTodoCount;
 
 			if (activeTodoCount || completedCount) {
-				footer =
+				footer = (
 					<TodoFooter
 						count={activeTodoCount}
 						completedCount={completedCount}
 						nowShowing={this.state.nowShowing}
 						onClearCompleted={this.clearCompleted}
-					/>;
+					/>
+				);
 			}
 
 			if (todos.length) {
@@ -135,9 +140,7 @@ var app = app || {};
 							onChange={this.toggleAll}
 							checked={activeTodoCount === 0}
 						/>
-						<ul className="todo-list">
-							{todoItems}
-						</ul>
+						<ul className="todo-list">{todoItems}</ul>
 					</section>
 				);
 			}
@@ -145,7 +148,7 @@ var app = app || {};
 			return (
 				<div>
 					<header className="header">
-						<h1>todos</h1>
+						<h1>My todos</h1>
 						<input
 							ref="newField"
 							className="new-todo"
@@ -158,14 +161,14 @@ var app = app || {};
 					{footer}
 				</div>
 			);
-		}
+		},
 	});
 
 	var model = new app.TodoModel('react-todos');
 
 	function render() {
 		React.render(
-			<TodoApp model={model}/>,
+			<TodoApp model={model} />,
 			document.getElementsByClassName('todoapp')[0]
 		);
 	}
