@@ -7,10 +7,12 @@ on:
     workflow_dispatch:
 
 jobs:
-    cypress-e2e-chrome81:
+    cypress-e2e-chrome:
         name: Run on Chrome
         runs-on: ubuntu-latest
         container: cypress/browsers:latest
+        env:
+          folder_path: ${{ github.run_number }} 
 
         steps:
             - uses: actions/checkout@v2
@@ -48,6 +50,9 @@ jobs:
               uses: peaceiris/actions-gh-pages@v3
               with:
                 github_token: ${{ secrets.GITHUB_TOKEN }}
-                external_repository: FickleBobby/ficklebobby.github.io
+                publish_branch: cypress-reports 
                 publish_dir: ./public
+                destination_dir: ${{ env.folder_path }}
+                user_name: 'github-actions[bot]'
+                user_email: 'github-actions[bot]@users.noreply.github.com'
 
