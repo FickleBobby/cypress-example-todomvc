@@ -24,6 +24,7 @@ jobs:
 
             - name: Cypress run
               uses: cypress-io/github-action@v2
+              continue-on-error: true
               with:
                 start: npm start
                 wait-on: 'http://localhost:8888'
@@ -47,5 +48,6 @@ jobs:
               uses: peaceiris/actions-gh-pages@v3
               with:
                 github_token: ${{ secrets.GITHUB_TOKEN }}
+                external_repository: FickleBobby/ficklebobby.github.io
                 publish_dir: ./public
 
