@@ -1,18 +1,15 @@
 name: End-to-end tests
-on: [push]
-jobs:
-  cypress-run:
-    runs-on: windows-latest
+  on:
+    push:
+    workflow_dispatch:
+  
+  jobs:
+    cypress-run:
+      runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: Run E2E tests
-        uses: cypress-io/github-action@v2
-        with:
-          start: "npm run start:ci"
-          wait-on: "http://localhost:8888"
-          # let's see if the Test Runner handles url in the config
-          # https://github.com/cypress-io/cypress/issues/5466
-          config: baseUrl=http://localhost:8888
-
-
+    - name: Checkout
+      uses: actions/checkout@v1
+    # Install NPM dependencies, cache them correctly
+    # and run all Cypress tests
+    - name: Cypress run
+      uses: cypress-io/github-action@v2
