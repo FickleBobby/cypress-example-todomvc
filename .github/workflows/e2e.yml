@@ -55,4 +55,14 @@ jobs:
                 destination_dir: ${{ env.folder_path }}
                 user_name: 'github-actions[bot]'
                 user_email: 'github-actions[bot]@users.noreply.github.com'
+                
+            - name: Slack Notify
+              uses: rtCamp/action-slack-notify@v2.1.2
+              env:
+                SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+                SLACK_CHANNEL: Steven Howard
+                SLACK_MESSAGE: This is a test message https://ficklebobby.github.io/cypress-example-todomvc/${{ env.folder_path }}/
+                SLACK_COLOR: FF00EF
+                MSG_MINIMAL: true
+
 
