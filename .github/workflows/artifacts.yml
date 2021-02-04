@@ -1,1 +1,21 @@
+name: Create Cypress report
 
+on:
+    workflow_dispatch:
+
+jobs:
+    cypress-e2e-chrome:
+        name: Run on Chrome
+        runs-on: ubuntu-latest
+        
+        steps:
+        - uses: actions/checkout@v2
+
+        - run: mkdir -p path/to/artifact
+
+        - run: echo hello > path/to/artifact/world.txt
+
+        - uses: actions/upload-artifact@v2
+          with:
+            name: my-artifact
+            path: path/to/artifact/world.txt
