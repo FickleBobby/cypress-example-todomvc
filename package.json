@@ -24,7 +24,7 @@
 		"types": "tsc --noEmit",
 		"e2e": "cypress run",
     "report:merge": "mochawesome-merge cypress/results/json/*.json > index.json",
-    "report:generate": "marge index.json --reportDir public --assetsDir public/assets --reportPageTitle index.html"
+    "report:generate": "marge index.json --reportDir cypress/reports --assetsDir cypress/reports/assets --reportPageTitle index.html"
 	},
 	"dependencies": {
 		"director": "1.2.8",
