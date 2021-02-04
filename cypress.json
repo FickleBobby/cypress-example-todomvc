@@ -3,6 +3,7 @@
 	"fixturesFolder": false,
 	"pluginsFile": false,
 	"reporter": "cypress-multi-reporters",
+	"chromeWebSecurity": false,
 	"reporterOptions": {
 		"configFile": "reporter-config.json"
 	}
