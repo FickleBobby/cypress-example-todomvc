@@ -4,7 +4,7 @@ on:
     workflow_dispatch:
 
 jobs:
-    cypress-e2e-chrome:
+    cypress-e2e:
         name: Run on Chrome
         runs-on: ubuntu-latest
         container: cypress/browsers:latest
@@ -49,18 +49,44 @@ jobs:
               with:
                 name: cypress-videos
                 path: cypress/videos
-                
-            - name: Slack Notify
-              uses: rtCamp/action-slack-notify@v2.1.2
-              env:
-                SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-                SLACK_USERNAME: TIS-SelfService-E2E-Reports 
-                SLACK_CHANNEL: general
-                SLACK_ICON_EMOJI: ":test_tube:"
-                SLACK_TITLE: "" 
-                SLACK_MESSAGE: Cypress reports available at https://ficklebobby.github.io/cypress-example-todomvc/${{ env.folder_path }}
-                SLACK_COLOR: FF00EF
-                SLACK_FOOTER: Its impossible to be unhappy when wearing a poncho. 
-                MSG_MINIMAL: true
 
+    backup-artifacts:
+        name: Backup build artifacts
+        needs: cypress-e2e
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: Download build artifacts
+          uses: actions/download-artifact@v2
+          with:
+            path: build-artifacts
+
+        - name: Configure AWS credentials
+          uses: aws-actions/configure-aws-credentials@v1
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: eu-west-2
+
+        - name: Backup build artifacts
+          run: |
+            workflow=$(echo ${{ github.workflow }} | sed -e 's/\W/-/g' -e 's/\(.*\)/\L\1/')
+            aws s3 sync build-artifacts s3://tfb-artifacts/${{ github.event.repository.name }}/$workflow/${{ github.run_number }}
+
+    send-slack:
+        name: Send notification to Slack
+        runs-on: ubuntu-latest
+        steps:
+        - name: Slack Notify
+          uses: rtCamp/action-slack-notify@v2.1.2
+          env:
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+            SLACK_USERNAME: TIS-SelfService-E2E-Reports 
+            SLACK_CHANNEL: general
+            SLACK_ICON_EMOJI: ":test_tube:"
+            SLACK_TITLE: " " 
+            SLACK_MESSAGE: Cypress reports available at https://ficklebobby.github.io/cypress-example-todomvc/${{ env.folder_path }}
+            SLACK_COLOR: FF00EF
+            SLACK_FOOTER: Its impossible to be unhappy when wearing a poncho. 
+            MSG_MINIMAL: true
 
