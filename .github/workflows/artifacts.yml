@@ -1,5 +1,6 @@
 name: Artifacts
-on: [push]
+on:  
+  workflow_dispatch:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
