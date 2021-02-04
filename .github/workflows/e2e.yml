@@ -17,10 +17,16 @@ jobs:
             - name: Cypress run
               uses: cypress-io/github-action@v2
               continue-on-error: true
+              env:
+                CYPRESS_host: https://trainee.tis.nhs.uk
+                CYPRESS_baseUrl: https://trainee.tis.nhs.uk
+                CYPRESS_password: ${{ secrets.E2E_TEST_PASS }}
+                CYPRESS_username: ${{ secrets.E2E_TEST_USER }}
               with:
-                start: npm start
-                browser: chrome  
-                wait-on: 'http://localhost:8888'
+                #start: npm start
+                browser: chrome
+               
+                #wait-on: 'http://localhost:8888'
 
             - name: Merge test results into one
               run: npm run report:merge
