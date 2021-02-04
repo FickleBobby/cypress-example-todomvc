@@ -13,45 +13,42 @@ jobs:
 
         steps:
             - uses: actions/checkout@v2
-            - name: Install a project with a clean slate
-              run: |
-                npm ci
-                $(npm bin)/cypress cache path
-                $(npm bin)/cypress cache list
-                $(npm bin)/cypress verify
-
-
+           
             - name: Cypress run
               uses: cypress-io/github-action@v2
               continue-on-error: true
               with:
                 start: npm start
+                browser: chrome  
                 wait-on: 'http://localhost:8888'
 
-            - name: Run Cypress tests
-              run: npm run cypress:run:chrome
-              continue-on-error: true
-
-            - name: Copy test execution videos
-              run: |
-                mkdir public
-                cp -r cypress/videos public/videos
-            
             - name: Merge test results into one
               run: npm run report:merge
 
             - name: Generate HTML report
               run: npm run report:generate
-
-            - name: Deploy report page
-              uses: peaceiris/actions-gh-pages@v3
+          
+            - name: Create report artifact
+              uses: actions/upload-artifact@v2
               with:
-                github_token: ${{ secrets.GITHUB_TOKEN }}
-                publish_branch: cypress-reports 
-                publish_dir: ./public
-                destination_dir: ${{ env.folder_path }}
-                user_name: 'github-actions[bot]'
-                user_email: 'github-actions[bot]@users.noreply.github.com'
+                name: cypress-reports
+                path: cypress/reports
+            
+            - name: Create screenshot artifact   
+              uses: actions/upload-artifact@v2
+              # No screenshots generated if tests pass.
+              if: failure()
+              with:
+                name: cypress-screenshots
+                path: cypress/screenshots
+
+            - name: Create video artifact
+              uses: actions/upload-artifact@v2
+              # Test run video was always captured, so this action uses "always()" condition
+              if: always()
+              with:
+                name: cypress-videos
+                path: cypress/videos
                 
             - name: Slack Notify
               uses: rtCamp/action-slack-notify@v2.1.2
