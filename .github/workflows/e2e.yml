@@ -24,10 +24,11 @@ jobs:
                 CYPRESS_password: ${{ secrets.E2E_TEST_PASS }}
                 CYPRESS_username: ${{ secrets.E2E_TEST_USER }}
               with:
+                config: pageLoadTimeout=100000,baseUrl=https://trainee.tis.nhs.uk
                 #start: npm start
                 browser: chrome
                
-                #wait-on: 'http://localhost:8888'
+                wait-on: 'https://trainee.tis.nhs.uk'
 
             - name: Merge test results into one
               run: npm run report:merge
