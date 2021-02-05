@@ -87,7 +87,7 @@ jobs:
         steps:
         - name: set workflow
           run: |
-            echo "WORKFLOW=${{ github.workflow }}" >> $GITHUB_ENV
+            echo "WORKFLOW=sdfsdfsfsfdfsdf" >> $GITHUB_ENV
         - name: Slack Notify
           uses: rtCamp/action-slack-notify@v2.1.2
           env:
