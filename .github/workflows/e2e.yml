@@ -87,7 +87,7 @@ jobs:
         steps:
         - name: set workflow
           run: |
-            echo "WORKFLOW=${{ github.workflow }} | sed -e 's/\W/-/g' -e 's/\(.*\)/\L\1/'" >> $GITHUB_ENV
+            workflow=$(echo ${{ github.workflow }} | sed -e 's/\W/-/g' -e 's/\(.*\)/\L\1/')
         - name: Slack Notify
           uses: rtCamp/action-slack-notify@v2.1.2
           env:
@@ -96,7 +96,7 @@ jobs:
             SLACK_CHANNEL: general
             SLACK_ICON_EMOJI: ":test_tube:"
             SLACK_TITLE: " " 
-            SLACK_MESSAGE: Cypress reports available at ${{env.WORKFLOW}} https://fb-artifacts.s3.eu-west-2.amazonaws.com/cypress-example-todomvc/e2e-tests/19/cypress-reports
+            SLACK_MESSAGE: Cypress reports available at $workflow https://fb-artifacts.s3.eu-west-2.amazonaws.com/cypress-example-todomvc/e2e-tests/19/cypress-reports
             SLACK_COLOR: FF00EF
             SLACK_FOOTER: Its impossible to be unhappy when wearing a poncho. 
             MSG_MINIMAL: true
