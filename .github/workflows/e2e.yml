@@ -85,9 +85,10 @@ jobs:
         needs: backup-artifacts
         runs-on: ubuntu-latest
         steps:
-        - name: Slack Notify
+        - name: set workflow
           run: |
             echo "WORKFLOW=${{ github.workflow }} | sed -e 's/\W/-/g' -e 's/\(.*\)/\L\1/'"  >> $GITHUB_ENV
+        - name: Slack Notify
           uses: rtCamp/action-slack-notify@v2.1.2
           env:
             SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
