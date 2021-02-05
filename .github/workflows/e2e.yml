@@ -96,7 +96,7 @@ jobs:
             SLACK_CHANNEL: general
             SLACK_ICON_EMOJI: ":test_tube:"
             SLACK_TITLE: " " 
-            SLACK_MESSAGE: Cypress reports available at $WORKFLOW https://fb-artifacts.s3.eu-west-2.amazonaws.com/cypress-example-todomvc/e2e-tests/19/cypress-reports
+            SLACK_MESSAGE: Cypress reports available at ${{env.WORKFLOW}} https://fb-artifacts.s3.eu-west-2.amazonaws.com/cypress-example-todomvc/e2e-tests/19/cypress-reports
             SLACK_COLOR: FF00EF
             SLACK_FOOTER: Its impossible to be unhappy when wearing a poncho. 
             MSG_MINIMAL: true
