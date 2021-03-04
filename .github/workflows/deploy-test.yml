@@ -27,6 +27,26 @@ jobs:
         with:
           name: cypress-videos
           path: cypress/videos
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        if: always()
+        with:
+          path: build-artifacts
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        if: always()
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-2
+  
+      - name: Backup build artifacts
+        if: always()
+        run: |
+          workflow=$(echo ${{ github.workflow }} | sed -e 's/\W/-/g' -e 's/\(.*\)/\L\1/')
+          aws s3 sync build-artifacts s3://fb-artifacts/${{ github.event.repository.name }}/$workflow/${{ github.run_number }}
+
 
   backup-artifacts:
     name: Backup build artifacts
