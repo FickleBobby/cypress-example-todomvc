@@ -15,14 +15,14 @@ jobs:
           start: npm start
           wait-on: 'http://localhost:8888'
       - name: Process artifacts if FAILURE
-        uses: actions/upload-artifact@v2
         if: failure()
+        uses: actions/upload-artifact@v2
         with:
           name: cypress-screenshots
           path: cypress/screenshots
       - name: Send failure Slack message
-        uses: rtCamp/action-slack-notify@v2.1.2
         if: failure()
+        uses: rtCamp/action-slack-notify@v2.1.2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_USERNAME: TIS-SelfService-E2E-Reports 
@@ -35,8 +35,8 @@ jobs:
           MSG_MINIMAL: true
 
       - name: Send failure Slack message
-        uses: rtCamp/action-slack-notify@v2.1.2
         if: success()
+        uses: rtCamp/action-slack-notify@v2.1.2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_USERNAME: TIS-SelfService-E2E-Reports 
@@ -50,25 +50,25 @@ jobs:
 
       # Test run video was always captured, so this action uses "always()" condition
       - name: Process artifacts ALWAYS
-        uses: actions/upload-artifact@v2
         if: always()
+        uses: actions/upload-artifact@v2
         with:
           name: cypress-videos
           path: cypress/videos
       - name: Download build artifacts
-        uses: actions/download-artifact@v2
         if: always()
+        uses: actions/download-artifact@v2
         with:
           path: build-artifacts
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
         if: always()
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-2
-  
+
       - name: Backup build artifacts
         if: always()
         run: |
