@@ -6,19 +6,23 @@ jobs:
     runs-on: ubuntu-latest
     name: E2E
     steps:
+
       - uses: actions/checkout@v2
-      - uses: cypress-io/github-action@v2
+      - name: Run E2E
+        uses: cypress-io/github-action@v2
         #continue-on-error: true
         with:
           start: npm start
           wait-on: 'http://localhost:8888'
-      - uses: actions/upload-artifact@v2
+      - name: Process artifacts if FAILURE
+        uses: actions/upload-artifact@v2
         if: failure()
         with:
           name: cypress-screenshots
           path: cypress/screenshots
       # Test run video was always captured, so this action uses "always()" condition
-      - uses: actions/upload-artifact@v2
+      - name: Process artifacts ALWAYS
+        uses: actions/upload-artifact@v2
         if: always()
         with:
           name: cypress-videos
