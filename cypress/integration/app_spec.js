@@ -58,5 +58,6 @@ describe('TodoMVC - React', function () {
 		cy.get('.new-todo').type('learn testing{enter}').type('be cool{enter}');
 
 		cy.get('.todo-list li').should('have.length', 112);
+		cy.get('.todo-list li').should('have.length', 12);
 	});
 });
