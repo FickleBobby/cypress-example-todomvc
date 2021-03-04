@@ -1,14 +1,9 @@
 name: E2E Tests
 
 on:
-    push:
-        branches: master
     workflow_dispatch:
 env: 
   workflow: ${{ github.workflow }}
-
-run: |
-  echo "WORKFLOW=$(echo ${{ github.workflow }} | sed -e 's/\W/-/g' -e 's/\(.*\)/\L\1/')" >> $GITHUB_ENV
  
 jobs:
     cypress-e2e:
