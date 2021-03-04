@@ -20,6 +20,34 @@ jobs:
         with:
           name: cypress-screenshots
           path: cypress/screenshots
+      - name: Send failure Slack message
+        uses: rtCamp/action-slack-notify@v2.1.2
+        if: failure()
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USERNAME: TIS-SelfService-E2E-Reports 
+          SLACK_CHANNEL: general
+          SLACK_ICON_EMOJI: ":test_tube:"
+          SLACK_TITLE: "E2E TESTS FAILED" 
+          SLACK_MESSAGE: Cypress reports available at https://fb-artifacts/${{ github.event.repository.name }}/${{env.WORKFLOW}}/${{ github.run_number }}/cypress-reports
+          SLACK_COLOR: FF0000
+          SLACK_FOOTER: Its impossible to be unhappy when wearing a poncho. 
+          MSG_MINIMAL: true
+
+      - name: Send failure Slack message
+        uses: rtCamp/action-slack-notify@v2.1.2
+        if: success()
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USERNAME: TIS-SelfService-E2E-Reports 
+          SLACK_CHANNEL: general
+          SLACK_ICON_EMOJI: ":test_tube:"
+          SLACK_TITLE: "E2E TESTS PASSED. YAY!!!" 
+          SLACK_MESSAGE: Cypress reports available at https://fb-artifacts/${{ github.event.repository.name }}/${{env.WORKFLOW}}/${{ github.run_number }}/cypress-reports
+          SLACK_COLOR: 00CC00
+          SLACK_FOOTER: Its impossible to be unhappy when wearing a poncho. 
+          MSG_MINIMAL: true
+
       # Test run video was always captured, so this action uses "always()" condition
       - name: Process artifacts ALWAYS
         uses: actions/upload-artifact@v2
