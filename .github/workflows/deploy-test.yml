@@ -8,6 +8,9 @@ jobs:
     steps:
 
       - uses: actions/checkout@v2
+      - name: Get workflow
+        run: |
+          echo "workflow=$(echo ${{ github.workflow }} | sed -e 's/\W/-/g' -e 's/\(.*\)/\L\1/')" >> $GITHUB_ENV
       - name: Run E2E
         uses: cypress-io/github-action@v2
         #continue-on-error: true
@@ -29,7 +32,7 @@ jobs:
           SLACK_CHANNEL: general
           SLACK_ICON_EMOJI: ":test_tube:"
           SLACK_TITLE: "E2E TESTS FAILED" 
-          SLACK_MESSAGE: Cypress reports available at https://fb-artifacts/${{ github.event.repository.name }}/${{env.WORKFLOW}}/${{ github.run_number }}/cypress-reports
+          SLACK_MESSAGE: Cypress reports available at https://fb-artifacts/${{ github.event.repository.name }}/${{env.workflow}}/${{ github.run_number }}/cypress-reports
           SLACK_COLOR: FF0000
           SLACK_FOOTER: Its impossible to be unhappy when wearing a poncho. 
           MSG_MINIMAL: true
