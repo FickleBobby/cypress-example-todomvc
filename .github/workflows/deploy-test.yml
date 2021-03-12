@@ -4,6 +4,8 @@ on:
 jobs:
   deploy-cypress-run:
     runs-on: ubuntu-latest
+    container:
+      image: cypress/browsers:latest
     name: E2E
     steps:
 
