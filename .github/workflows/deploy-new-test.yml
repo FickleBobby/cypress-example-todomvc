@@ -12,6 +12,7 @@ jobs:
         uses: cypress-io/github-action@v2
         #continue-on-error: true
         with:
+          browser: chrome
           start: npm start
           wait-on: 'http://localhost:8888'
       - name: Process artifacts if FAILURE
