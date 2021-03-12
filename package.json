@@ -23,8 +23,8 @@
 		"effective:circle:config": "circleci config process circle.yml | sed /^#/d",
 		"types": "tsc --noEmit",
 		"e2e": "cypress run",
-    "report:merge": "mochawesome-merge cypress/results/json/*.json > index.json",
-    "report:generate": "marge index.json --reportDir cypress/reports --assetsDir cypress/reports/assets --reportPageTitle index.html"
+		"report:merge": "mochawesome-merge cypress/results/json/*.json > index.json",
+		"report:generate": "marge index.json --reportDir cypress/reports --assetsDir cypress/reports/assets --reportPageTitle index.html"
 	},
 	"dependencies": {
 		"director": "1.2.8",
@@ -35,7 +35,7 @@
 	},
 	"devDependencies": {
 		"axe-core": "3.5.5",
-		"cypress": "6.3.0",
+		"cypress": "6.6.0",
 		"cypress-axe": "0.9.1",
 		"cypress-multi-reporters": "1.4.0",
 		"eslint": "6.8.0",
