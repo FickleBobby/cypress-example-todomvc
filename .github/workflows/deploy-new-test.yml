@@ -4,6 +4,8 @@ on:
 jobs:
   deploy-cypress-run:
     runs-on: ubuntu-latest
+    container:
+      image: cypress/browsers:node13.6.0-chrome80-ff72
     name: E2E
     steps:
 
